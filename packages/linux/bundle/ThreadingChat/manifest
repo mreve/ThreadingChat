@@ -4,7 +4,7 @@
 #version: 1.0
 #image: default_app_logo.png
 #publisher: mreve
-#url: asdf
+#url: 0.0.0.0:8000
 runtime: 1.3.1-beta
 platform: 1.3.1-beta
 filesystem: 1.3.1-beta

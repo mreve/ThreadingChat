@@ -1,4 +1,4 @@
-/**
+/*
 * Copyright (c) 2012 Software in the Public Interest (SPI) Inc.
 * Copyright (c) 2012 David Pratt
 * 
@@ -53,27 +53,31 @@ function fill_alert(msg, fieldGroupName, omitUn) {
 }
 
 $(document).ready(function() {
-	$("#included-view").load("welcome-view.html", function() {
 		$("#sign-in-submit").click(function() {
 			if (!user_in_base($("#sign-in-username").val(), $("#sign-in-password").val())) {
 				fill_alert("Wrong username or password", "sign-in", false);
 			} else {
-				$("#included-view").load("main-view.html", function() {
-					/* all the main functions */
-					Ti.UI.currentWindow.setBounds({
-						x: 1000,
-						y: 0,
-						width: 500,
-						height: 700
-					});
-
-					$(".tab-description").click(function() {
-						var tabClass = $(this).attr("class");
-						if (tabClass.indexOf("active") == -1) {
-							/* ogarnij przelaczanie tabow */
-						}
-					});
+				var welcomeWindow = Ti.UI.currentWindow;
+				var newWindow = welcomeWindow.createWindow({
+					id: "main",
+					title: "ThreadingChat",
+					url: "app://main.html",
+					width: 500,
+					maxWidth: 3000,
+					minWidth: 0,
+					height: 700,
+					maxHeight: 3000,
+					minHeight: 0,
+					fullscreen: false,
+					x: window.screen.width-500,
+					y: 20,
+					resizable: true,
+					maximizable: true,
+					minimizable: true,
+					closeable: true
 				});
+				welcomeWindow.hide();
+				newWindow.open();
 			}
 			return false;
 		});
@@ -84,12 +88,12 @@ $(document).ready(function() {
 			} else if ($("#register-password").val() != $("#register-repeat").val()) {
 				fill_alert("Incorrect password", "register", true);
 			} else {
-				// dziwna rzecz - jesli dwa nastepne polecenia zamieni sie miejscami, to to przestaje dzialac.
 				users.push({
 					un: $("#register-username").val(),
 					pwd: $("#register-password").val()
 				});
 				fill_alert("Registration completed", "register", false);
+				toggle_visibility("register-form");
 			}
 			return false;
 		});
@@ -98,20 +102,4 @@ $(document).ready(function() {
 			toggle_visibility("register-form");
 		});
 	});
-});
-
-
-
-
-// create and set menu
-/*var menu = Ti.UI.createMenu(),
-fileItem = Ti.UI.createMenuItem('File'),
-exitItem = fileItem.addItem('Exit', function() {
-  if (confirm('Are you sure you want to quit?')) {
-    Ti.App.exit();
-  }
-});
-
-menu.appendItem(fileItem);
-Ti.UI.setMenu(menu);
-*/
+//});

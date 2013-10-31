@@ -4,7 +4,7 @@
 <name>ThreadingChat</name>
 <version>1.0</version>
 <publisher>mreve</publisher>
-<url>asdf</url>
+<url>0.0.0.0:8000</url>
 <icon>default_app_logo.png</icon>
 <copyright>2013 by mreve</copyright>
 
@@ -25,4 +25,5 @@
 <minimizable>true</minimizable>
 <closeable>true</closeable>
 </window>
+
 </ti:app>
