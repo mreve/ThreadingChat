@@ -15,9 +15,6 @@
 * limitations under the License.
 **/
 
-var logged_in_as = '';
-
-
 function toggle_visibility(id) {
 	var e = document.getElementById(id);
 	if(e.style.display == 'block')
@@ -27,7 +24,6 @@ function toggle_visibility(id) {
 }
 
 var users = [{ un:'mreve', pwd:''}, { un:'kotek', pwd:'kotek'}, { un:'dawid', pwd:'kochany'}];
-var amount_of_opened_conversations = 2;
 
 function user_in_base(usrn, pswd) {
 	for (var i = 0; i<users.length; i++)
@@ -53,12 +49,17 @@ function fill_alert(msg, fieldGroupName, omitUn) {
 }
 
 $(document).ready(function() {
-		$("#sign-in-submit").click(function() {
-			if (!user_in_base($("#sign-in-username").val(), $("#sign-in-password").val())) {
-				fill_alert("Wrong username or password", "sign-in", false);
-			} else {
-				var welcomeWindow = Ti.UI.currentWindow;
-				var newWindow = welcomeWindow.createWindow({
+	$("#sign-in-submit").click(function() {
+		if (!user_in_base($("#sign-in-username").val(), $("#sign-in-password").val())) {
+			fill_alert("Wrong username or password", "sign-in", false);
+		} else {
+			var saveLoggedInUserData = {
+				username: $("#sign-in-username").val(),
+				password: $("#sign-in-password").val()
+			};
+			Ti.API.set('logged_user', saveLoggedInUserData);
+			var welcomeWindow = Ti.UI.currentWindow;
+			var newWindow = welcomeWindow.createWindow({
 					id: "main",
 					title: "ThreadingChat",
 					url: "app://main.html",
@@ -75,31 +76,29 @@ $(document).ready(function() {
 					maximizable: true,
 					minimizable: true,
 					closeable: true
-				});
-				welcomeWindow.hide();
-				newWindow.open();
-			}
-			return false;
-		});
-
-		$("#register-submit").click(function() {
-			if (username_taken($("#register-username").val())) {
-				fill_alert("Username already taken", "register", false);
-			} else if ($("#register-password").val() != $("#register-repeat").val()) {
-				fill_alert("Incorrect password", "register", true);
-			} else {
-				users.push({
-					un: $("#register-username").val(),
-					pwd: $("#register-password").val()
-				});
-				fill_alert("Registration completed", "register", false);
-				toggle_visibility("register-form");
-			}
-			return false;
-		});
-
-		$("#toggler-header").click(function() {
-			toggle_visibility("register-form");
-		});
+			});
+			welcomeWindow.hide();
+			newWindow.open();
+		}
+		return false;
 	});
-//});
+	$("#register-submit").click(function() {
+		if (username_taken($("#register-username").val())) {
+			fill_alert("Username already taken", "register", false);
+		} else if ($("#register-password").val() != $("#register-repeat").val()) {
+			fill_alert("Incorrect password", "register", true);
+		} else {
+			users.push({
+				un: $("#register-username").val(),
+				pwd: $("#register-password").val()
+			});
+			fill_alert("Registration completed", "register", false);
+			toggle_visibility("register-form");
+		}
+		return false;
+	});
+
+	$("#toggler-header").click(function() {
+		toggle_visibility("register-form");
+	});
+});
