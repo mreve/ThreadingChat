@@ -59,23 +59,12 @@ $(document).ready(function() {
 			};
 			Ti.API.set('logged_user', saveLoggedInUserData);
 			var welcomeWindow = Ti.UI.currentWindow;
-			var newWindow = welcomeWindow.createWindow({
-					id: "main",
-					title: "ThreadingChat",
-					url: "app://main.html",
-					width: 500,
-					maxWidth: 3000,
-					minWidth: 0,
-					height: 700,
-					maxHeight: 3000,
-					minHeight: 0,
-					fullscreen: false,
-					x: window.screen.width-500,
-					y: 20,
-					resizable: true,
-					maximizable: true,
-					minimizable: true,
-					closeable: true
+			var newWindow = welcomeWindow.createWindow("app://main.html");
+			newWindow.setBounds({
+				x: window.screen.width-500,
+				y: 20,
+				width: 500,
+				height: 700
 			});
 			welcomeWindow.hide();
 			newWindow.open();

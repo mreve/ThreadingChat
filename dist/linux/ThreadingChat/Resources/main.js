@@ -48,6 +48,8 @@ $(document).ready(function() {
 
 	able_tab("tab-contacts");
 
+	$("#main-space").css("min-height", (rightTabsOpened+1) * 55);
+
 	$(".tab-description").click(function() {
 		disable_tabs();
 		able_tab($(this).attr("id"));
